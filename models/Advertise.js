@@ -1,28 +1,29 @@
 const mongoose = require("mongoose");
 
-const User = new mongoose.Schema({
+const Advertise = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    mobile: {
+    image: {
         type: String,
         required: true
     },
-    email: {
-        type: String
-    },
-    password: {
-        type: String
-    },
-    address: {
+    location: {
         type: String,
         required: true
     },
-    userType: {
+    quantity: {
         type: Number,
         required: true
+    },
+    buyer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    status: {
+        type: Number
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model('User', User)
+module.exports = mongoose.model('Advertise', Advertise)
