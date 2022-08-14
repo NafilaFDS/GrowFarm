@@ -38,7 +38,12 @@ const resolvers = {
         },
         advertiseList: async () => {
             try {
-                return await Advertise.find();
+                //return await Advertise.find();
+
+                const advertises = await Advertise.find();
+                return advertises.map(advertise => {
+                    return transformAd(advertise);
+                });
             } catch (error) {
                 throw error
             }
@@ -87,7 +92,10 @@ const resolvers = {
                 throw error;
             }
         },
-        uploadFile: async (_, { file }) => {
+        uploadFile: async (_, { file }, context) => {
+            if (!context.isAuth) {
+                throw new Error("Unauthenticated!");
+            }
             const x = await file.file;
             const { createReadStream, filename } = x;
             const stream = createReadStream();
@@ -102,7 +110,7 @@ const resolvers = {
             }
         },
         postAdvertise: async (_, args, context) => {
-            console.log("context", context);
+            //console.log("context", context);
             if (!context.isAuth) {
                 throw new Error("Unauthenticated!");
             }
@@ -113,19 +121,34 @@ const resolvers = {
                 image: image,
                 location: location,
                 quantity: quantity,
-                buyer: "62e3e2673fdc346047f8eacf"
+                buyer: context.userId
             });
             try {
                 let postAd
                 const saveAd = await saveAdvertise.save();
                 postAd = transformAd(saveAdvertise);
-                const usr = await User.findById("62e3e2673fdc346047f8eacf");
+                const usr = await User.findById(context.userId);
                 if (!usr) {
                     throw new Error("User not found.")
                 }
                 return postAd
             } catch (err) {
                 throw err;
+            }
+        },
+        deleteUser: async (parent, { id }, context) => {
+            // if (!context.isAuth) {
+            //     throw new Error("Unauthenticated!");
+            // }
+            await Advertise.find({ buyer: id }).then((advertises) => {
+                advertises.forEach(advertise => {
+                    advertise.remove();
+                })
+            })
+            await User.findByIdAndRemove(id)
+            return {
+                status: 1,
+                message: "Deleted Successfully!"
             }
         }
     }

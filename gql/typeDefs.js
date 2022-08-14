@@ -62,6 +62,7 @@ const typeDefs = gql`
         login(mobile: String!, password: String!): AuthData!
         uploadFile(file: Upload!): File!
         postAdvertise(advertise: advertiseInput ): Advertise!
+        deleteUser(id: ID!): Message!
     }
 `
 module.exports = typeDefs

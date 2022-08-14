@@ -33,9 +33,9 @@ const user = async userId => {
 //     }
 // }
 const transformAd = async (ad) => {
-    //console.log('AD', ad)
+    console.log('AD', ad)
     try {
-        const u = await User.findById("62e3e2673fdc346047f8eacf");
+        const u = await User.findById(ad.buyer);
         //console.log("u", u)
         return {
             ...ad._doc,

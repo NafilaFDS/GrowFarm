@@ -21,7 +21,7 @@ async function startServer() {
         typeDefs,
         resolvers,
         context: ({ req }) => {
-            return { val: req.isAuth };
+            return req;
         }
     });
 
