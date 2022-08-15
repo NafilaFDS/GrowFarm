@@ -38,12 +38,24 @@ const resolvers = {
         },
         advertiseList: async () => {
             try {
-                //return await Advertise.find();
-
                 const advertises = await Advertise.find();
                 return advertises.map(advertise => {
                     return transformAd(advertise);
                 });
+            } catch (error) {
+                throw error
+            }
+        },
+        myProfile: async (__, args, context) => {
+            try {
+                return await User.findById(context.userId);
+            } catch (error) {
+                throw error
+            }
+        },
+        myAdvertise: async (__, args, context) => {
+            try {
+                return await Advertise.find({ buyer: { $in: context.userId } });
             } catch (error) {
                 throw error
             }
@@ -150,6 +162,20 @@ const resolvers = {
                 status: 1,
                 message: "Deleted Successfully!"
             }
+        },
+        editUser: async (parent, { name, mobile, email, address }, context) => {
+            // if (!context.isAuth) {
+            //     throw new Error("Unauthenticated!");
+            // }
+            await User.findByIdAndUpdate(
+                context.userId,
+                {
+                    $set: {
+                        name, mobile, email, address
+                    }
+                }
+            )
+            return User.findById(context.userId)
         }
     }
 }

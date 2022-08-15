@@ -41,6 +41,8 @@ const typeDefs = gql`
         farmersList:[User]
         buyersList:[User]
         advertiseList: [Advertise]
+        myProfile: User
+        myAdvertise: [Advertise]
     }
 
     input userInput {
@@ -63,6 +65,7 @@ const typeDefs = gql`
         uploadFile(file: Upload!): File!
         postAdvertise(advertise: advertiseInput ): Advertise!
         deleteUser(id: ID!): Message!
+        editUser(name: String, mobile: String, email: String, address: String): User!
     }
 `
 module.exports = typeDefs
