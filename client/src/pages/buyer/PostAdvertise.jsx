@@ -6,7 +6,6 @@ import { SettingContext } from '../../App';
 
 //API
 import { POST_ADVERTISE, UPLOAD_FILE } from "../../graphql/mutation";
-import { MY_ADVERTISE } from '../../graphql/query';
 
 const PostAdvertise = () => {
     const { languageData } = useContext(SettingContext);
@@ -18,18 +17,7 @@ const PostAdvertise = () => {
     });
     const navigate = useNavigate();
 
-    const [postAdvertise, { data }] = useMutation(POST_ADVERTISE, {
-        // update(cache) {
-        //     const { myAdvertise } = cache.readQuery({ query: MY_ADVERTISE });
-        //     console.log("data------", postAdvertise);
-        //     // cache.writeQuery({
-        //     //     query: MY_ADVERTISE,
-        //     //     data: {
-        //     //         myAdvertise: myAdvertise.push(data.postAdvertise)
-        //     //     }
-        //     // })
-        // },
-    });
+    const [postAdvertise] = useMutation(POST_ADVERTISE);
     const [uploadFile] = useMutation(UPLOAD_FILE);
 
     const fileUp = (e) => {
@@ -59,9 +47,8 @@ const PostAdvertise = () => {
         }).then(({ data }) => {
             if (data) {
                 // console.log(data)
-                // console.log(data)
                 toast.info("Waiting for admin approval!");
-                //navigate("/my-advertise");
+                navigate("/my-advertise");
             }
 
         }).catch((err) => {

@@ -128,7 +128,10 @@ const Header = () => {
                                                                 <Link className="nav-link" to="/my-profile">{languageData.header.menu.admin[4]}</Link>
                                                             </li>
                                                             <li className="nav-item">
-                                                                <span className="nav-link" onClick={logout}>{languageData.header.menu.admin[5]}</span>
+                                                                <Link className="nav-link" to="/advertise-approval">{languageData.header.menu.admin[5]}</Link>
+                                                            </li>
+                                                            <li className="nav-item">
+                                                                <span className="nav-link" onClick={logout}>{languageData.header.menu.admin[6]}</span>
                                                             </li>
                                                         </ul>
                                                     }

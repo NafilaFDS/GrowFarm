@@ -7,10 +7,151 @@ const isAuth = require("./middleware/is-auth");
 const { graphqlUploadExpress } = require("graphql-upload");
 const cors = require("cors");
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
+require('dotenv').config()
+const SSLCommerzPayment = require("sslcommerz-lts");
+const Sell = require("./models/Sell");
+
+
+const app = express();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
+//---------------------SSL Commerz-------------------------
+app.get('/', async (req, res) => {
+
+    /** 
+    * Root url response 
+    */
+
+    return res.status(200).json({
+        message: "Welcome to sslcommerz app",
+        url: `${process.env.ROOT}/ssl-request`
+    })
+})
+
+app.get('/ssl-request', async (req, res) => {
+    /** 
+    * Create ssl session request 
+    */
+    console.log("req.query", req.query);
+    const { totalAmount, productName, cusName, cusEmail, cusAdd1, cusPhone, advId } = req.query;
+    const data = {
+        total_amount: +totalAmount,
+        currency: 'BDT',
+        tran_id: 'REF123',
+        success_url: `${process.env.ROOT}/ssl-payment-success?id=${advId}`,
+        fail_url: `${process.env.ROOT}/ssl-payment-fail`,
+        cancel_url: `${process.env.ROOT}/ssl-payment-cancel`,
+        shipping_method: 'No',
+        product_name: productName,
+        product_category: 'Farm',
+        product_profile: 'general',
+        cus_name: cusName,
+        cus_email: cusEmail,
+        cus_add1: cusAdd1,
+        cus_add2: 'Dhaka',
+        cus_city: 'Dhaka',
+        cus_state: 'Dhaka',
+        cus_postcode: '1000',
+        cus_country: 'Bangladesh',
+        cus_phone: cusPhone,
+        cus_fax: '01711111111',
+        multi_card_name: 'mastercard',
+        value_a: 'ref001_A',
+        value_b: 'ref002_B',
+        value_c: 'ref003_C',
+        value_d: 'ref004_D',
+        ipn_url: `${process.env.ROOT}/ssl-payment-notification`,
+    };
+    console.log("SSLCommerzPayment", SSLCommerzPayment)
+    const sslcommerz = new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD, false) //true for live default false for sandbox
+    sslcommerz.init(data).then(data => {
+
+        //process the response that got from sslcommerz 
+        //https://developer.sslcommerz.com/doc/v4/#returned-parameters
+
+        if (data?.GatewayPageURL) {
+            return res.status(200).redirect(data?.GatewayPageURL);
+        }
+        else {
+            return res.status(400).json({
+                message: "Session was not successful"
+            });
+        }
+    });
+
+});
+
+app.post("/ssl-payment-notification", async (req, res) => {
+
+    /** 
+    * If payment notification
+    */
+
+    return res.status(200).json(
+        {
+            data: req.body,
+            message: 'Payment notification'
+        }
+    );
+})
+
+app.post("/ssl-payment-success", async (req, res) => {
+
+    /** 
+    * If payment successful 
+    */
+    const x = await Sell.findByIdAndUpdate(
+        req.query.id,
+        {
+            $set: {
+                paymentStatus: "Paid"
+            }
+        }
+    )
+    console.log("req.query.id, ---------------x", req.query.id, x)
+
+    return res.status(200).json(
+        {
+            data: req.body,
+            message: 'Payment success'
+        }
+    );
+})
+
+app.post("/ssl-payment-fail", async (req, res) => {
+
+    /** 
+    * If payment failed 
+    */
+
+    return res.status(200).json(
+        {
+            data: req.body,
+            message: 'Payment failed'
+        }
+    );
+})
+
+app.post("/ssl-payment-cancel", async (req, res) => {
+
+    /** 
+    * If payment cancelled 
+    */
+
+    return res.status(200).json(
+        {
+            data: req.body,
+            message: 'Payment cancelled'
+        }
+    );
+})
+
 
 async function startServer() {
-    const app = express();
 
     //-----------------------authorization-----------------
     // app.use(isAuth);
@@ -25,10 +166,7 @@ async function startServer() {
         }
     });
 
-    // parse application/x-www-form-urlencoded
-    app.use(bodyParser.urlencoded({ extended: false }))
-    // parse application/json
-    app.use(bodyParser.json())
+
     await apolloServer.start();
 
     app.use(graphqlUploadExpress());

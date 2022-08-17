@@ -26,6 +26,8 @@ import SellCrop from "./pages/farmer/SellCrop";
 import UserList from "./pages/admin/UserList";
 import Dashboard from "./pages/admin/Dashboard";
 import ComplainList from "./pages/admin/ComplainList";
+import AdvApproval from "./pages/admin/AdvApproval";
+import AdvResponse from "./pages/admin/AdvResponse";
 
 const BasePage = () => {
     return (
@@ -46,7 +48,7 @@ const BasePage = () => {
                 {/* ----------- Buyer Routes------- */}
                 <Route path="/post-advertise" element={<PostAdvertise />} />
                 <Route path="/my-advertise" element={<MyAdvertise />} />
-                <Route path="/crop-received/:id" element={<CropReceived />} />
+                <Route path="/crop-received/:name/:id" element={<CropReceived />} />
 
                 {/* ----------- Farmer Routes------- */}
                 <Route path="/complain-status" element={<ComplainStatus />} />
@@ -59,6 +61,8 @@ const BasePage = () => {
                 <Route path="/farmer-list" element={<UserList />} />
                 <Route path="/buyer-list" element={<UserList />} />
                 <Route path="/complain-list" element={<ComplainList />} />
+                <Route path="/advertise-approval" element={<AdvApproval />} />
+                <Route path="/advertise-response/:id" element={<AdvResponse />} />
 
                 {/* ----------- System Routes------- */}
                 <Route path="/about" element={<About />} />

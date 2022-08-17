@@ -21,8 +21,12 @@ const Advertise = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    response: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Sell'
+    },
     status: {
-        type: Number
+        type: String
     }
 }, { timestamps: true })
 

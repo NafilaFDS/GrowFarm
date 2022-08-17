@@ -1,13 +1,26 @@
-import React, { useContext, useState } from 'react';
-import { FaEye } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import React, { useContext, useEffect, useState } from 'react';
 import { SettingContext } from '../../App';
-import training1 from "../../assets/images/training/training-1.jpg"
-import FarmerInformation from '../../components/PartyInformation';
+
+//API
+import { CROP_ADVERTISE } from '../../graphql/query';
+import CropAdvRow from './CropAdvRow';
 
 const CropAdvertise = () => {
-    const [show, setShow] = useState(false);
     const { languageData } = useContext(SettingContext);
+    const { data, loading, error, refetch } = useQuery(CROP_ADVERTISE);
+
+    const [myAdv, setMyAdv] = useState([]);
+
+    useEffect(() => {
+        if (data) {
+            console.log("data", data);
+            setMyAdv(data.cropAdvertise)
+        }
+        if (error) {
+            console.log(error);
+        }
+    }, [data, loading, error])
     return (
         <div className="t-design container mt-5">
             <h3 className="text-center">{languageData.cropAdvertise.heading}</h3>
@@ -23,17 +36,14 @@ const CropAdvertise = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><Link to="/sell/5">{languageData.cropAdvertise.table[0]}</Link></td>
-                        <td>Carrot</td>
-                        <td><img src={training1} alt="training1" width="150" height="100" /></td>
-                        <td>50kg</td>
-                        <td> <button className='btn btn-primary btn-sm' onClick={() => setShow(true)}><FaEye /></button></td>
-                        <td>Sold</td>
-                    </tr>
+                    {
+                        myAdv?.length > 0 &&
+                        myAdv.map(item => (
+                            <CropAdvRow key={item._id} item={item} refetch={refetch} />
+                        ))
+                    }
                 </tbody>
             </table>
-            <FarmerInformation show={show} setShow={setShow} />
         </div>
     )
 }

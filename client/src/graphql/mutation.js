@@ -108,3 +108,61 @@ export const EDIT_USER = gql`
           }
     }
 `;
+export const UPDATE_APPROVE_ADVERTISE = gql`
+    mutation updateAdvStatus(
+        $id: ID!
+        $status: String!
+    ) {
+        updateAdvStatus(
+           id: $id
+           status: $status
+        ) {
+            message
+          }
+    }
+`;
+export const CREATE_SALE = gql`
+    mutation createSale(
+        $advId: ID!
+        $quantity: Int!
+        $price: Int!
+    ) {
+        createSale(
+           advId: $advId
+           quantity: $quantity
+           price: $price
+        ) {
+            _id
+          }
+    }
+`;
+export const TEST = gql`
+    mutation {
+        test
+    }
+`;
+export const MAKE_PAYMENT = gql`
+    mutation makePayment(
+        $totalAmount:Int! 
+        $productName: String!
+        $cusName: String!
+        $cusEmail: String! 
+        $cusAdd1: String! 
+        $cusPhone: String!
+        $advId: ID!
+    ) {
+        makePayment(
+            payment:{
+            totalAmount:  $totalAmount
+            productName: $productName
+            cusName:  $cusName
+            cusEmail: $cusEmail
+            cusAdd1 :$cusAdd1
+            cusPhone :$cusPhone
+            advId :$advId
+          } 
+        ) {
+            url
+          }
+    }
+`;

@@ -28,6 +28,7 @@ module.exports = (req, res, next) => {
         req.isAuth = true;
         //console.log("decodedToken", decodedToken);
         req.userId = decodedToken.userId;
+        req.userType = decodedToken.userType;
         //console.log("Authorization successful");
         next();
     }

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import training1 from "../../assets/images/training/training-1.jpg";
 import { FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { SettingContext } from '../../App';
@@ -11,8 +10,11 @@ import { MY_ADVERTISE } from '../../graphql/query';
 
 const MyAdvertise = () => {
     const { languageData } = useContext(SettingContext);
-    const { data, loading, error } = useQuery(MY_ADVERTISE);
-    const [myAdv, setMyAdv] = useState()
+    const { data, loading, error } = useQuery(MY_ADVERTISE, {
+        fetchPolicy: 'network-only'
+    });
+
+    const [myAdv, setMyAdv] = useState([])
     useEffect(() => {
         if (data) {
             console.log("data", data);
@@ -22,6 +24,7 @@ const MyAdvertise = () => {
             console.log(error);
         }
     }, [data, loading, error])
+
     return (
         <div className="t-design container mt-5">
             <h3 className='text-center'>{languageData.myAdvertise.heading}</h3>
@@ -36,13 +39,22 @@ const MyAdvertise = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Carrot</td>
-                        <td><img src={training1} alt="training1" width="150" height="100" /></td>
-                        <td>50kg</td>
-                        <td>Accepted</td>
-                        <td><Link to={`/crop-received/${2}`}><FaEye /></Link></td>
-                    </tr>
+                    {
+                        myAdv.length > 0 &&
+                        myAdv.map((item) => (
+                            <tr key={item._id}>
+                                <td>{item.name}</td>
+                                <td><img src={item.image} alt={item.name} width="150" height="100" /></td>
+                                <td>{item.quantity}</td>
+                                <td>{item.status}</td>
+                                <td>
+                                    <Link to={`/crop-received/${item.name}/${item._id}`}>
+                                        <FaEye />
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
         </div>

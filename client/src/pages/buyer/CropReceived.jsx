@@ -1,9 +1,33 @@
-import React, { useContext } from 'react'
+import { useQuery } from '@apollo/client';
+import React, { useContext, useEffect, useState } from 'react'
 import { SettingContext } from '../../App';
-import ReceivedCropRow from '../../components/buyer/ReceivedCropRow'
+import ReceivedCropRow from '../../components/buyer/ReceivedCropRow';
+import { useParams } from 'react-router-dom';
+
+//API
+import { MY_ADVERTISE_RESPONSE } from '../../graphql/query';
 
 const CropReceived = () => {
+    const { id } = useParams()
     const { languageData } = useContext(SettingContext);
+    const { data, loading, error } = useQuery(MY_ADVERTISE_RESPONSE, {
+        variables: {
+            advId: id
+        },
+        fetchPolicy: 'network-only'
+    });
+
+    const [myAdv, setMyAdv] = useState([])
+    useEffect(() => {
+        if (data) {
+            console.log("data", data);
+            setMyAdv(data.sellHistory)
+        }
+        if (error) {
+            console.log(error);
+        }
+    }, [data, loading, error])
+
     return (
         <div className="t-design container mt-5">
             <h3 className='text-center'>{languageData.receivedCrop.heading}</h3>
@@ -18,7 +42,12 @@ const CropReceived = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <ReceivedCropRow />
+                    {
+                        myAdv?.length > 0 &&
+                        myAdv.map(item => (
+                            <ReceivedCropRow key={item._id} item={item} />
+                        ))
+                    }
                 </tbody>
             </table>
         </div>

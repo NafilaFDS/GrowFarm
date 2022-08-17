@@ -12,7 +12,7 @@ const language = {
             lang: "Language",
             menu: {
                 general: ['Home', 'About Us', 'Training'],
-                admin: ["Dashboard", "Farmer List", "Buyer List", "Complain List", "Profile", "Logout"],
+                admin: ["Dashboard", "Farmer List", "Buyer List", "Complain List", "Profile", "Crop Advertise", "Logout"],
                 farmer: ["Profile", "Complain", "Crop Advertise", "Farming Tips", "Logout"],
                 buyer: ["Profile", "Post Advertise", "My Advertise", "Logout"]
             }
@@ -41,20 +41,24 @@ const language = {
             table: ["Complain", "Response", "View Profile"]
         },
         cropAdvertise: {
-            heading: 'My advertise',
-            table: ["Sell", "Crop Name", "Crop Image", "Required Quantity", "Buyer Information", "Status"]
+            heading: 'Crop Advertisement Detail',
+            table: ["Sell", "Crop Name", "Crop Image", "Required Quantity(kg)", "Buyer Information", "My Response"]
         },
         postAdvertise: {
             heading: "Post your required crop",
-            form: ["Crop Name", "Crop Image", "Location", "Required Quantity"]
+            form: ["Crop Name", "Crop Image", "Location", "Required Quantity(kg)"]
         },
         myAdvertise: {
-            heading: 'Crop Advertisement Detail',
-            table: ["Crop Name", "Crop Image", "Required Quantity", "Status", "Response"]
+            heading: 'My advertise',
+            table: ["Crop Name", "Crop Image", "Required Quantity(kg)", "Status", "Response"]
         },
         receivedCrop: {
             heading: 'Received Crop Detail',
             table: ["Make Payment", "Farmer Details", "Date", "Available Quantity", "Price(tk)"]
+        },
+        advertiseApprove: {
+            heading: 'Crop Advertisement',
+            table: ["Crop Name", "Crop Image", "Required Quantity(kg)", "Buyer Information", "Status", "Action", "Sale History"]
         },
         sell: {
             heading: 'Sell Crop',
@@ -153,7 +157,7 @@ const language = {
             lang: "ভাষা",
             menu: {
                 general: ['হোম', 'আমাদের সম্পর্কে', 'প্রশিক্ষণ'],
-                admin: ["ড্যাশবোর্ড", "কৃষকের তালিকা", "ক্রেতার তালিকা", "অভিযোগ তালিকা", "প্রোফাইল", "লগআউট"],
+                admin: ["ড্যাশবোর্ড", "কৃষকের তালিকা", "ক্রেতার তালিকা", "অভিযোগ তালিকা", "প্রোফাইল", "ফসলের বিজ্ঞাপন", "লগআউট"],
                 farmer: ["প্রোফাইল", "অভিযোগ", "ফসলের বিজ্ঞাপন", "চাষের টিপস", "লগআউট"],
                 buyer: ["প্রোফাইল", "বিজ্ঞাপন পোস্ট করুন", "আমার বিজ্ঞাপন", "লগআউট"]
             }
@@ -183,19 +187,23 @@ const language = {
         },
         cropAdvertise: {
             heading: 'ফসলের বিজ্ঞাপনের বিস্তারিত',
-            table: ["বিক্রয়", "শস্যের নাম", "ফসলের ছবি", "প্রয়োজনীয় পরিমাণ", "ক্রেতার তথ্য", "স্থিতি"]
+            table: ["বিক্রয়", "শস্যের নাম", "ফসলের ছবি", "প্রয়োজনীয় পরিমাণ(কেজি)", "ক্রেতার তথ্য", "আমার প্রতিক্রিয়া"]
         },
         postAdvertise: {
             heading: "আপনার প্রয়োজনীয় ফসল পোস্ট করুন",
-            form: ["ফসলের নাম", "ক্রপ ইমেজ", "অবস্থান", "প্রয়োজনীয় পরিমাণ"]
+            form: ["ফসলের নাম", "ক্রপ ইমেজ", "অবস্থান", "প্রয়োজনীয় পরিমাণ(কেজি)"]
         },
         myAdvertise: {
-            heading: 'ফসলের বিজ্ঞাপনের বিস্তারিত',
-            table: ["ফসলের নাম", "ক্রপ ইমেজ", "প্রয়োজনীয় পরিমাণ", "স্থিতি", "প্রতিক্রিয়া"]
+            heading: 'আমার বিজ্ঞাপন',
+            table: ["ফসলের নাম", "ক্রপ ইমেজ", "প্রয়োজনীয় পরিমাণ(কেজি)", "স্থিতি", "প্রতিক্রিয়া"]
         },
         receivedCrop: {
             heading: 'গৃহীত ফসল বিস্তারিত',
             table: ["পেমেন্ট করুন", "কৃষকের বিবরণ", "তারিখ", "উপলভ্য পরিমাণ", "মূল্য(টাকা)"]
+        },
+        advertiseApprove: {
+            heading: 'ফসলের বিজ্ঞাপন',
+            table: ["ফসলের নাম", "ফসলের ছবি", "প্রয়োজনীয় পরিমাণ(কেজি)", "ক্রেতার তথ্য", "স্থিতি", "ক্রিয়া", "বিক্রয় ইতিহাস"]
         },
         sell: {
             heading: 'ফসল বিক্রি করুন',

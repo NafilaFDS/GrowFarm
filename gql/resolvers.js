@@ -1,12 +1,15 @@
 const { gql, ApolloError } = require("apollo-server-express");
-const User = require("../models/User");
-const Advertise = require("../models/Advertise");
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const fs = require("fs");
 const process = require('process');
-const { transformBooking, transformAd } = require("./merge");
+const { transformSale, transformAd } = require("./merge");
+
+//API
+const User = require("../models/User");
+const Advertise = require("../models/Advertise");
+const Sell = require("../models/Sell");
 
 const randomString = (length) => {
     var result = '';
@@ -36,11 +39,21 @@ const resolvers = {
                 throw error
             }
         },
-        advertiseList: async () => {
+        advertiseApproval: async (_, args, context) => {
             try {
                 const advertises = await Advertise.find();
                 return advertises.map(advertise => {
-                    return transformAd(advertise);
+                    return transformAd(advertise, context.userType, context.userId);
+                });
+            } catch (error) {
+                throw error
+            }
+        },
+        cropAdvertise: async (_, args, context) => {
+            try {
+                const advertises = await Advertise.find({ status: { $in: "Approved" } });
+                return advertises.map(advertise => {
+                    return transformAd(advertise, context.userType, context.userId);
                 });
             } catch (error) {
                 throw error
@@ -56,6 +69,32 @@ const resolvers = {
         myAdvertise: async (__, args, context) => {
             try {
                 return await Advertise.find({ buyer: { $in: context.userId } });
+            } catch (error) {
+                throw error
+            }
+        },
+        myResponse: async (__, { advId }, context) => {
+            try {
+                return await Sell.find({
+                    $and: [
+                        {
+                            "buyer": context.userId
+                        },
+                        {
+                            "advertise": advId
+                        }
+                    ]
+                })
+            } catch (error) {
+                throw error
+            }
+        },
+        sellHistory: async (__, { advId }, context) => {
+            try {
+                const sells = await Sell.find({ advertise: { $in: advId } });
+                return sells.map(sell => {
+                    return transformSale(sell);
+                })
             } catch (error) {
                 throw error
             }
@@ -133,12 +172,13 @@ const resolvers = {
                 image: image,
                 location: location,
                 quantity: quantity,
-                buyer: context.userId
+                buyer: context.userId,
+                status: "Pending"
             });
             try {
                 let postAd
                 const saveAd = await saveAdvertise.save();
-                postAd = transformAd(saveAdvertise);
+                postAd = transformAd(saveAdvertise, context.userType, context.userId);
                 const usr = await User.findById(context.userId);
                 if (!usr) {
                     throw new Error("User not found.")
@@ -176,6 +216,62 @@ const resolvers = {
                 }
             )
             return User.findById(context.userId)
+        },
+        updateAdvStatus: async (parent, { id, status }, context) => {
+            await Advertise.findByIdAndUpdate(
+                id,
+                {
+                    $set: {
+                        status
+                    }
+                }
+            )
+            return { message: "Successfull!" }
+        },
+        createSale: async (_, { advId, quantity, price }, context) => {
+            const saveSale = new Sell({
+                advertise: advId,
+                quantity: quantity,
+                price: price,
+                farmer: context.userId,
+                paymentStatus: "Unpaid"
+            });
+            try {
+                let postSale
+                await saveSale.save();
+                postSale = transformSale(saveSale);
+                return postSale
+            } catch (err) {
+                throw err;
+            }
+        },
+        updateSale: async (_, { saleId }, context) => {
+            try {
+                await Sell.findByIdAndUpdate(
+                    saleId,
+                    {
+                        $set: {
+                            paymentStatus: "Paid"
+                        }
+                    }
+                )
+                return { message: "Payment Successfull!" }
+            } catch (err) {
+                throw err;
+            }
+        },
+        makePayment: async (_, args, context) => {
+            try {
+                const { totalAmount, productName, cusName, cusEmail, cusAdd1, cusPhone, advId } = args.payment;
+                return {
+                    url: `http://localhost:4000/ssl-request/?totalAmount=${totalAmount}&productName=${productName}&cusName=${cusName}&cusEmail=${cusEmail}&cusAdd1=${cusAdd1}&cusPhone=${cusPhone}&advId=${advId}`
+                }
+            } catch (err) {
+                throw err;
+            }
+        },
+        delWhAdv: async () => {
+            return Advertise.remove()
         }
     }
 }

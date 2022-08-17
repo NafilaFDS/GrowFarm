@@ -13,6 +13,7 @@ query{
     address
     mobile
     email
+    createdAt
   }
 }
 `
@@ -24,6 +25,7 @@ query{
     address
     mobile
     email
+    createdAt
   }
 }
 `
@@ -46,6 +48,90 @@ query{
     image
     location
     quantity
+    status
+    createdAt
+  }
+}
+`
+export const MY_ADVERTISE_RESPONSE = gql`
+query sellHistory($advId: ID!){
+  sellHistory(advId: $advId) {
+    _id
+    quantity
+    price
+    farmer {
+      _id
+      name
+      mobile
+      email
+      address
+    }
+    paymentStatus
+    createdAt
+  }
+}`
+
+export const ADVERTISE_APPROVAL = gql`
+query{
+  advertiseApproval{
+    _id
+    name
+    image
+    location
+    quantity
+    status
+    createdAt
+    buyer{
+      _id
+      name
+      address
+      mobile
+      email
+    }
+    response{
+      _id
+      quantity
+      price
+      paymentStatus
+      farmer{
+        name
+        mobile
+        email
+        address
+      }
+    }
+  }
+}
+`
+export const CROP_ADVERTISE = gql`
+query{
+  cropAdvertise{
+    _id
+    name
+    image
+    location
+    quantity
+    status
+    createdAt
+    buyer{
+      _id
+      name
+      address
+      mobile
+      email
+    }
+    response{
+      _id
+      quantity
+      price
+      paymentStatus
+      farmer{
+        name
+        mobile
+        email
+        address
+      }
+    }
   }
 }
 `

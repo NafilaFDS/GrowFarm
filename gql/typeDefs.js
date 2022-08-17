@@ -23,6 +23,18 @@ const typeDefs = gql`
         location: String 
         quantity: Int! 
         buyer: User!
+        status: String
+        response: [Sell]!
+        createdAt: String!
+        updatedAt: String!
+    }
+    type Sell{
+        _id: ID!
+        quantity: Int! 
+        price: Int! 
+        farmer: User!
+        paymentStatus: String
+        advertise: Advertise
         createdAt: String!
         updatedAt: String!
     }
@@ -36,13 +48,19 @@ const typeDefs = gql`
        status: Int!
        message: String!
     }
+    type PaymentResponse{
+      url: String!
+    }
     type Query{
         hello: String
         farmersList:[User]
         buyersList:[User]
-        advertiseList: [Advertise]
+        advertiseApproval: [Advertise]
         myProfile: User
         myAdvertise: [Advertise]
+        cropAdvertise: [Advertise]
+        myResponse(advId: ID!): [Sell]
+        sellHistory(advId: ID!): [Sell]
     }
 
     input userInput {
@@ -59,6 +77,15 @@ const typeDefs = gql`
         location: String 
         quantity: Int! 
     }
+    input paymentInput {
+        totalAmount:Int! 
+        productName: String!
+        cusName: String!
+        cusEmail: String! 
+        cusAdd1: String! 
+        cusPhone: String!
+        advId: ID!
+    }
     type Mutation {
         createUser(user: userInput): User
         login(mobile: String!, password: String!): AuthData!
@@ -66,6 +93,11 @@ const typeDefs = gql`
         postAdvertise(advertise: advertiseInput ): Advertise!
         deleteUser(id: ID!): Message!
         editUser(name: String, mobile: String, email: String, address: String): User!
+        updateAdvStatus(id: ID!, status: String!): Message! 
+        createSale(advId: ID!, quantity: Int!, price: Int!): Sell
+        updateSale(saleId: ID!): Message! 
+        makePayment(payment:paymentInput): PaymentResponse!
+        delWhAdv: Advertise
     }
 `
 module.exports = typeDefs
