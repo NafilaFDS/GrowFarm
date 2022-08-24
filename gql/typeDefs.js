@@ -38,6 +38,10 @@ const typeDefs = gql`
         createdAt: String!
         updatedAt: String!
     }
+    type AdminSettings{
+        _id: ID!
+        commissionAmount: Int!
+    }
     type AuthData {
         userId: ID!
         me: User!
@@ -61,6 +65,8 @@ const typeDefs = gql`
         cropAdvertise: [Advertise]
         myResponse(advId: ID!): [Sell]
         sellHistory(advId: ID!): [Sell]
+        getAdminSettings: [AdminSettings]
+        getCommissionValue: Int!
     }
 
     input userInput {
@@ -95,8 +101,9 @@ const typeDefs = gql`
         editUser(name: String, mobile: String, email: String, address: String): User!
         updateAdvStatus(id: ID!, status: String!): Message! 
         createSale(advId: ID!, quantity: Int!, price: Int!): Sell
-        updateSale(saleId: ID!): Message! 
         makePayment(payment:paymentInput): PaymentResponse!
+        createAdminSettings(commissionAmount: Int!): AdminSettings!
+        updateAdminSettings(commissionAmount: Int!): AdminSettings!  
         delWhAdv: Advertise
     }
 `

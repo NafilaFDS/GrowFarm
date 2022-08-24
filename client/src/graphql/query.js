@@ -135,3 +135,23 @@ query{
   }
 }
 `
+export const MY_RESPONSE = gql`
+query myResponse($advId: ID!){
+  myResponse(advId: $advId) {
+    _id
+    quantity
+    price
+    paymentStatus
+    createdAt
+  }
+}`
+export const GET_ADMIN_SETTINGS = gql`
+query {
+  getAdminSettings {
+    commissionAmount
+  }
+}`
+export const GET_COMMISSION_VALUE = gql`
+query {
+  getCommissionValue 
+}`

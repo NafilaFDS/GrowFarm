@@ -10,6 +10,7 @@ const { transformSale, transformAd } = require("./merge");
 const User = require("../models/User");
 const Advertise = require("../models/Advertise");
 const Sell = require("../models/Sell");
+const AdminSettings = require("../models/AdminSettings");
 
 const randomString = (length) => {
     var result = '';
@@ -27,21 +28,21 @@ const resolvers = {
         hello: () => "Hello world!",
         farmersList: async () => {
             try {
-                return await User.find({ userType: { $in: 2 } });
+                return await User.find({ userType: { $in: 2 } }).sort({ $natural: -1 });
             } catch (error) {
                 throw error
             }
         },
         buyersList: async () => {
             try {
-                return await User.find({ userType: { $in: 3 } });
+                return await User.find({ userType: { $in: 3 } }).sort({ $natural: -1 });
             } catch (error) {
                 throw error
             }
         },
         advertiseApproval: async (_, args, context) => {
             try {
-                const advertises = await Advertise.find();
+                const advertises = await Advertise.find().sort({ $natural: -1 });
                 return advertises.map(advertise => {
                     return transformAd(advertise, context.userType, context.userId);
                 });
@@ -51,7 +52,7 @@ const resolvers = {
         },
         cropAdvertise: async (_, args, context) => {
             try {
-                const advertises = await Advertise.find({ status: { $in: "Approved" } });
+                const advertises = await Advertise.find({ status: { $in: "Approved" } }).sort({ $natural: -1 });
                 return advertises.map(advertise => {
                     return transformAd(advertise, context.userType, context.userId);
                 });
@@ -68,7 +69,7 @@ const resolvers = {
         },
         myAdvertise: async (__, args, context) => {
             try {
-                return await Advertise.find({ buyer: { $in: context.userId } });
+                return await Advertise.find({ buyer: { $in: context.userId } }).sort({ $natural: -1 });
             } catch (error) {
                 throw error
             }
@@ -84,21 +85,39 @@ const resolvers = {
                             "advertise": advId
                         }
                     ]
-                })
+                }).sort({ $natural: -1 })
             } catch (error) {
                 throw error
             }
         },
         sellHistory: async (__, { advId }, context) => {
             try {
-                const sells = await Sell.find({ advertise: { $in: advId } });
+                const sells = await Sell.find({ advertise: { $in: advId } }).sort({ $natural: -1 });
                 return sells.map(sell => {
                     return transformSale(sell);
                 })
             } catch (error) {
                 throw error
             }
-        }
+        },
+        getAdminSettings: async (_, args, context) => {
+            try {
+                const savesettings = await AdminSettings.find();
+                console.log(savesettings)
+                return savesettings
+            } catch (error) {
+                throw error
+            }
+        },
+        getCommissionValue: async (_, args, context) => {
+            try {
+                const savesettings = await AdminSettings.find();
+                //console.log("savesettings.commissionAmount", savesettings);
+                return savesettings[0].commissionAmount
+            } catch (error) {
+                throw error
+            }
+        },
     },
     Mutation: {
         createUser: async (_, args) => {
@@ -245,27 +264,38 @@ const resolvers = {
                 throw err;
             }
         },
-        updateSale: async (_, { saleId }, context) => {
-            try {
-                await Sell.findByIdAndUpdate(
-                    saleId,
-                    {
-                        $set: {
-                            paymentStatus: "Paid"
-                        }
-                    }
-                )
-                return { message: "Payment Successfull!" }
-            } catch (err) {
-                throw err;
-            }
-        },
         makePayment: async (_, args, context) => {
             try {
                 const { totalAmount, productName, cusName, cusEmail, cusAdd1, cusPhone, advId } = args.payment;
                 return {
                     url: `http://localhost:4000/ssl-request/?totalAmount=${totalAmount}&productName=${productName}&cusName=${cusName}&cusEmail=${cusEmail}&cusAdd1=${cusAdd1}&cusPhone=${cusPhone}&advId=${advId}`
                 }
+            } catch (err) {
+                throw err;
+            }
+        },
+        createAdminSettings: async (_, { commissionAmount }, context) => {
+            const saveSettings = new AdminSettings({
+                commissionAmount
+            });
+            try {
+                return await saveSettings.save();
+            } catch (err) {
+                throw err;
+            }
+        },
+        updateAdminSettings: async (_, { commissionAmount }, context) => {
+            try {
+                const adminSettings = await AdminSettings.findByIdAndUpdate(
+                    "62fe84b072a1297ac5a104f2",
+                    {
+                        $set: {
+                            commissionAmount
+                        }
+                    }
+                )
+                //console.log(adminSettings);
+                return adminSettings
             } catch (err) {
                 throw err;
             }

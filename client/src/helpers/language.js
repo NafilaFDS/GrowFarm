@@ -42,7 +42,11 @@ const language = {
         },
         cropAdvertise: {
             heading: 'Crop Advertisement Detail',
-            table: ["Sell", "Crop Name", "Crop Image", "Required Quantity(kg)", "Buyer Information", "My Response"]
+            table: ["Action", "Crop Name", "Crop Image", "Required Quantity(kg)", "Buyer Information", "My Response"]
+        },
+        myResponse: {
+            heading: 'My Response',
+            table: ["Available Quantity", "Price", "Date", "Payment Status"]
         },
         postAdvertise: {
             heading: "Post your required crop",
@@ -54,7 +58,7 @@ const language = {
         },
         receivedCrop: {
             heading: 'Received Crop Detail',
-            table: ["Make Payment", "Farmer Details", "Date", "Available Quantity", "Price(tk)"]
+            table: ["Make Payment", "Farmer Details", "Date", "Available Quantity", "Price(tk)", "Payment Status"]
         },
         advertiseApprove: {
             heading: 'Crop Advertisement',
@@ -63,6 +67,11 @@ const language = {
         sell: {
             heading: 'Sell Crop',
             form: ["Quantity", "Price"]
+        },
+        invoice: {
+            heading: 'Invoice',
+            list: ["Price(tk)", "Grow Farm commission(tk)", "Total(tk)"],
+            btn: "Pay Now"
         },
         farmingTips: {
             heading: 'Farming Tips',
@@ -187,7 +196,11 @@ const language = {
         },
         cropAdvertise: {
             heading: 'ফসলের বিজ্ঞাপনের বিস্তারিত',
-            table: ["বিক্রয়", "শস্যের নাম", "ফসলের ছবি", "প্রয়োজনীয় পরিমাণ(কেজি)", "ক্রেতার তথ্য", "আমার প্রতিক্রিয়া"]
+            table: ["কর্ম", "শস্যের নাম", "ফসলের ছবি", "প্রয়োজনীয় পরিমাণ(কেজি)", "ক্রেতার তথ্য", "আমার প্রতিক্রিয়া"]
+        },
+        myResponse: {
+            heading: 'আমার প্রতিক্রিয়া',
+            table: ["উপলভ্য পরিমাণ", "মূল্য", "তারিখ", "প্রদানের স্থিতি"]
         },
         postAdvertise: {
             heading: "আপনার প্রয়োজনীয় ফসল পোস্ট করুন",
@@ -199,7 +212,7 @@ const language = {
         },
         receivedCrop: {
             heading: 'গৃহীত ফসল বিস্তারিত',
-            table: ["পেমেন্ট করুন", "কৃষকের বিবরণ", "তারিখ", "উপলভ্য পরিমাণ", "মূল্য(টাকা)"]
+            table: ["পেমেন্ট করুন", "কৃষকের বিবরণ", "তারিখ", "উপলভ্য পরিমাণ", "মূল্য(টাকা)", "লেনদেনের অবস্থা"]
         },
         advertiseApprove: {
             heading: 'ফসলের বিজ্ঞাপন',
@@ -208,6 +221,11 @@ const language = {
         sell: {
             heading: 'ফসল বিক্রি করুন',
             form: ["পরিমাণ", "মূল্য"]
+        },
+        invoice: {
+            heading: 'চালান',
+            list: ["মূল্য(টাকা)", "গ্রো ফার্ম কমিশন(টাকা)", "মোট(টাকা)"],
+            btn: "এখন পরিশোধ করুন"
         },
         farmingTips: {
             heading: 'চাষের টিপস',
@@ -294,6 +312,6 @@ const language = {
                 }
             ]
         }
-    },
+    }
 }
 export default language;

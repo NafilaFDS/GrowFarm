@@ -13,8 +13,8 @@ const MyAdvertise = () => {
     const { data, loading, error } = useQuery(MY_ADVERTISE, {
         fetchPolicy: 'network-only'
     });
+    const [myAdv, setMyAdv] = useState([]);
 
-    const [myAdv, setMyAdv] = useState([])
     useEffect(() => {
         if (data) {
             console.log("data", data);

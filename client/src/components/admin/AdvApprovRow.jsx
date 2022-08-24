@@ -51,7 +51,7 @@ const AdvApprovRow = ({ item, refetch }) => {
                 <td>
                     {
                         item.response?.length > 0 &&
-                        <Link to={`/advertise-reponse/${item._id}`} className='btn btn-success btn-sm'>
+                        <Link to={`/advertise-response/${item.name}/${item._id}`} className='btn btn-success btn-sm'>
                             <FaCheck />
                         </Link>
                     }

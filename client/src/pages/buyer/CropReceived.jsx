@@ -16,7 +16,7 @@ const CropReceived = () => {
         },
         fetchPolicy: 'network-only'
     });
-
+    const userType = localStorage.getItem("userType");
     const [myAdv, setMyAdv] = useState([])
     useEffect(() => {
         if (data) {
@@ -30,26 +30,33 @@ const CropReceived = () => {
 
     return (
         <div className="t-design container mt-5">
-            <h3 className='text-center'>{languageData.receivedCrop.heading}</h3>
-            <table className="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">{languageData.receivedCrop.table[0]}</th>
-                        <th scope="col">{languageData.receivedCrop.table[1]}</th>
-                        <th scope="col">{languageData.receivedCrop.table[2]}</th>
-                        <th scope="col">{languageData.receivedCrop.table[3]}</th>
-                        <th scope="col">{languageData.receivedCrop.table[4]}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        myAdv?.length > 0 &&
-                        myAdv.map(item => (
-                            <ReceivedCropRow key={item._id} item={item} />
-                        ))
-                    }
-                </tbody>
-            </table>
+            {
+                myAdv?.length > 0 &&
+                <h3 className='text-center'>{languageData.receivedCrop.heading}</h3>
+            }
+            {
+                myAdv?.length > 0 ?
+                    <table className="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                {userType === "3" &&
+                                    <th scope="col">{languageData.receivedCrop.table[0]}</th>
+                                }
+                                <th scope="col">{languageData.receivedCrop.table[1]}</th>
+                                <th scope="col">{languageData.receivedCrop.table[2]}</th>
+                                <th scope="col">{languageData.receivedCrop.table[3]}</th>
+                                <th scope="col">{languageData.receivedCrop.table[4]}</th>
+                                <th scope="col">{languageData.receivedCrop.table[5]}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {myAdv.map(item => (
+                                <ReceivedCropRow key={item._id} item={item} />
+                            ))}
+                        </tbody>
+                    </table> :
+                    <h3>No response yet!</h3>
+            }
         </div>
     )
 }

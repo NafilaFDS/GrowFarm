@@ -54,16 +54,13 @@ const SignUp = () => {
             }
         }).catch((e) => console.log("error", e))
     }
-    console.log("location.state.type", location.state.type)
+    //console.log("location.state.type", location.state.type)
     return (
         <section className="user-registration pb-4">
             {
-                user?.userType === 2 &&
-                <h4>{languageData.signup.heading.farmer}</h4>
-            }
-            {
-                user?.userType === 3 &&
-                <h4>{languageData.signup.heading.buyer}</h4>
+                location.state?.type === 3 ?
+                    <h4>{languageData.signup.heading.buyer}</h4> :
+                    <h4>{languageData.signup.heading.farmer}</h4>
             }
             <div className="container">
                 <div className="row">

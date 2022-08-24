@@ -1,13 +1,14 @@
 import { useMutation } from '@apollo/client';
 import React, { useContext, useState } from 'react'
 import { SettingContext } from '../../App';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 //API
 import { CREATE_SALE } from '../../graphql/mutation';
 import { toast } from 'react-toastify';
 
 const SellCrop = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const { languageData } = useContext(SettingContext);
     const [createSale] = useMutation(CREATE_SALE);
@@ -32,7 +33,8 @@ const SellCrop = () => {
         }).then(({ data }) => {
             console.log(data);
             if (data?.createSale?._id) {
-                toast.success("Response sent successfully!")
+                toast.success("Response sent successfully!");
+                navigate(`/my-response/${id}`)
             }
         }).catch(e => {
             console.log(e)

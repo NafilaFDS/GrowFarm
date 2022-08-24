@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config()
 const SSLCommerzPayment = require("sslcommerz-lts");
 const Sell = require("./models/Sell");
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
 const app = express();
@@ -36,7 +37,7 @@ app.get('/ssl-request', async (req, res) => {
     /** 
     * Create ssl session request 
     */
-    console.log("req.query", req.query);
+    //console.log("req.query", req.query);
     const { totalAmount, productName, cusName, cusEmail, cusAdd1, cusPhone, advId } = req.query;
     const data = {
         total_amount: +totalAmount,
@@ -104,7 +105,7 @@ app.post("/ssl-payment-success", async (req, res) => {
     /** 
     * If payment successful 
     */
-    const x = await Sell.findByIdAndUpdate(
+    await Sell.findByIdAndUpdate(
         req.query.id,
         {
             $set: {
@@ -112,8 +113,7 @@ app.post("/ssl-payment-success", async (req, res) => {
             }
         }
     )
-    console.log("req.query.id, ---------------x", req.query.id, x)
-
+    res.redirect('http://localhost:3000/payment-success');
     return res.status(200).json(
         {
             data: req.body,
@@ -127,7 +127,7 @@ app.post("/ssl-payment-fail", async (req, res) => {
     /** 
     * If payment failed 
     */
-
+    res.redirect('http://localhost:3000/payment-fail');
     return res.status(200).json(
         {
             data: req.body,
@@ -141,7 +141,7 @@ app.post("/ssl-payment-cancel", async (req, res) => {
     /** 
     * If payment cancelled 
     */
-
+    res.redirect('http://localhost:3000/payment-cancel');
     return res.status(200).json(
         {
             data: req.body,
@@ -176,12 +176,29 @@ async function startServer() {
         res.send("hello")
     })
 
-    await mongoose.connect("mongodb://localhost:27017/grow_farm", {
-        useUnifiedTopology: true,
-        useNewUrlParser: true
-    });
-    console.log("mongoose connected............");
+    //-------------------local db-----------------------
+    // await mongoose.connect("mongodb://localhost:27017/grow_farm", {
+    //     useUnifiedTopology: true,
+    //     useNewUrlParser: true
+    // });
+    // app.listen(4000, () => console.log("server is running on port 4000."))
+    // const dbo = require("./db/connection");
 
-    app.listen(4000, () => console.log("server is running on port 4000."))
+    // app.listen(4000, () => {
+    //     // perform a database connection when server starts
+    //     dbo.connectToServer(function (err) {
+    //         if (err) console.error(err);
+    //     })
+    //     console.log(`Server is running on port: 4000`);
+    // });
+
+    mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.w0p2daa.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`)
+        .then((data) => {
+            console.log("first mongo connected at port 4000");
+            app.listen(4000);
+        }).catch(err => {
+            console.log(err);
+        })
+
 }
 startServer()

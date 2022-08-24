@@ -166,3 +166,15 @@ export const MAKE_PAYMENT = gql`
           }
     }
 `;
+export const CREATE_ADMIN_SETTINGS = gql`
+mutation createAdminSettings($commissionAmount: Int!){
+  createAdminSettings(commissionAmount: $commissionAmount) {
+    commissionAmount
+  }
+}`
+export const UPDATE_ADMIN_SETTINGS = gql`
+mutation updateAdminSettings($commissionAmount: Int!){
+  updateAdminSettings(commissionAmount: $commissionAmount) {
+    commissionAmount
+  }
+}`

@@ -27,7 +27,11 @@ import UserList from "./pages/admin/UserList";
 import Dashboard from "./pages/admin/Dashboard";
 import ComplainList from "./pages/admin/ComplainList";
 import AdvApproval from "./pages/admin/AdvApproval";
-import AdvResponse from "./pages/admin/AdvResponse";
+import MyResponse from "./pages/farmer/MyResponse";
+import Invoice from "./pages/buyer/payment/Invoice";
+import PaymentSuccess from "./pages/buyer/payment/PaymentSuccess";
+import PaymentFail from "./pages/buyer/payment/PaymentFail";
+import PaymentCancel from "./pages/buyer/payment/PaymentCancel";
 
 const BasePage = () => {
     return (
@@ -49,12 +53,18 @@ const BasePage = () => {
                 <Route path="/post-advertise" element={<PostAdvertise />} />
                 <Route path="/my-advertise" element={<MyAdvertise />} />
                 <Route path="/crop-received/:name/:id" element={<CropReceived />} />
+                {/* ----------- Payment Routes------- */}
+                <Route path="/invoice" element={<Invoice />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/payment-fail" element={<PaymentFail />} />
+                <Route path="/payment-cancel" element={<PaymentCancel />} />
 
                 {/* ----------- Farmer Routes------- */}
                 <Route path="/complain-status" element={<ComplainStatus />} />
                 <Route path="/farming-tips" element={<FarmingTips />} />
                 <Route path="/crop-advertise" element={<CropAdvertise />} />
                 <Route path="/sell/:id" element={<SellCrop />} />
+                <Route path="/my-response/:id" element={<MyResponse />} />
 
                 {/* ----------- Admin Routes------- */}
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -62,7 +72,7 @@ const BasePage = () => {
                 <Route path="/buyer-list" element={<UserList />} />
                 <Route path="/complain-list" element={<ComplainList />} />
                 <Route path="/advertise-approval" element={<AdvApproval />} />
-                <Route path="/advertise-response/:id" element={<AdvResponse />} />
+                <Route path="/advertise-response/:name/:id" element={<CropReceived />} />
 
                 {/* ----------- System Routes------- */}
                 <Route path="/about" element={<About />} />

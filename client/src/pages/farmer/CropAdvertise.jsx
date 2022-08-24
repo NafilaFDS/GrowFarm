@@ -4,11 +4,13 @@ import { SettingContext } from '../../App';
 
 //API
 import { CROP_ADVERTISE } from '../../graphql/query';
-import CropAdvRow from './CropAdvRow';
+import CropAdvRow from '../../components/farmer/CropAdvRow';
 
 const CropAdvertise = () => {
     const { languageData } = useContext(SettingContext);
-    const { data, loading, error, refetch } = useQuery(CROP_ADVERTISE);
+    const { data, loading, error, refetch } = useQuery(CROP_ADVERTISE, {
+        fetchPolicy: 'network-only'
+    });
 
     const [myAdv, setMyAdv] = useState([]);
 
@@ -32,7 +34,6 @@ const CropAdvertise = () => {
                         <th scope="col">{languageData.cropAdvertise.table[2]}</th>
                         <th scope="col">{languageData.cropAdvertise.table[3]}</th>
                         <th scope="col">{languageData.cropAdvertise.table[4]}</th>
-                        <th scope="col">{languageData.cropAdvertise.table[5]}</th>
                     </tr>
                 </thead>
                 <tbody>
