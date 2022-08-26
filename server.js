@@ -191,8 +191,11 @@ async function startServer() {
     //     })
     //     console.log(`Server is running on port: 4000`);
     // });
-
-    mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.w0p2daa.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`)
+    const db = process.env.MONGO_URL;
+    mongoose.connect(db, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true
+    })
         .then((data) => {
             console.log("first mongo connected at port 4000");
             app.listen(4000);
