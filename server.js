@@ -43,9 +43,9 @@ app.get('/ssl-request', async (req, res) => {
         total_amount: +totalAmount,
         currency: 'BDT',
         tran_id: 'REF123',
-        success_url: `http://localhost:4000/ssl-payment-success?id=${advId}`,
-        fail_url: `http://localhost:4000/ssl-payment-fail`,
-        cancel_url: `http://localhost:4000/ssl-payment-cancel`,
+        success_url: `${process.env.ROOT}/ssl-payment-success?id=${advId}`,
+        fail_url: `${process.env.ROOT}/ssl-payment-fail`,
+        cancel_url: `${process.env.ROOT}/ssl-payment-cancel`,
         shipping_method: 'No',
         product_name: productName,
         product_category: 'Farm',
@@ -65,10 +65,10 @@ app.get('/ssl-request', async (req, res) => {
         value_b: 'ref002_B',
         value_c: 'ref003_C',
         value_d: 'ref004_D',
-        ipn_url: `http://localhost:4000/ssl-payment-notification`,
+        ipn_url: `${process.env.ROOT}/ssl-payment-notification`,
     };
     console.log("SSLCommerzPayment", SSLCommerzPayment)
-    const sslcommerz = new SSLCommerzPayment("growf62dccceab1f7a", "growf62dccceab1f7a@ssl", false) //true for live default false for sandbox
+    const sslcommerz = new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD, false) //true for live default false for sandbox
     sslcommerz.init(data).then(data => {
 
         //process the response that got from sslcommerz 
@@ -192,7 +192,7 @@ async function startServer() {
     //     console.log(`Server is running on port: 4000`);
     // });
 
-    mongoose.connect(`mongodb+srv://Nafila:rBwBPUV3TjECqXkZ@cluster0.w0p2daa.mongodb.net/grow_farm?retryWrites=true&w=majority`)
+    mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.w0p2daa.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`)
         .then((data) => {
             console.log("first mongo connected at port 4000");
             app.listen(4000);
