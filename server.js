@@ -157,7 +157,12 @@ async function startServer() {
     // app.use(isAuth);
     app.use(isAuth);
     app.use(express.static('public'))
-    app.use(cors())
+    // cors origin URL - Allow inbound traffic from origin
+    corsOptions = {
+        origin: "http://localhost:3000",
+        optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    };
+    app.use(cors(corsOptions));
     const apolloServer = new ApolloServer({
         typeDefs,
         resolvers,
