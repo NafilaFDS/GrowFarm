@@ -196,8 +196,7 @@ async function startServer() {
     //     })
     //     console.log(`Server is running on port: 4000`);
     // });
-    const db = process.env.MONGO_URL;
-    mongoose.connect(db, {
+    mongoose.connect(`${process.env.MONGO_URL}`, {
         useUnifiedTopology: true,
         useNewUrlParser: true
     })
