@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { SettingContext } from '../../App';
+import axios from "axios";
 
 //API
 import { POST_ADVERTISE, UPLOAD_FILE } from "../../graphql/mutation";
@@ -19,24 +20,42 @@ const PostAdvertise = () => {
 
     const [postAdvertise] = useMutation(POST_ADVERTISE);
     const [uploadFile] = useMutation(UPLOAD_FILE);
+    //------------------------Local file upload with graphql API--------------------
+    // const fileUp = (e) => {
+    //     const file = e.target.files[0];
+    //     if (!file) return
+    //     uploadFile({
+    //         variables: {
+    //             file
+    //         }
+    //     }).then(({ data }) => {
+    //         if (data) {
+    //             setImage(data.uploadFile.url)
+    //         }
+    //     }).catch(e => {
+    //         console.log("upload error", e)
+    //     })
+    // }
+    //--------file upload with imgbb--------------------
 
     const fileUp = (e) => {
         const file = e.target.files[0];
         if (!file) return
-        uploadFile({
-            variables: {
-                file
-            }
-        }).then(({ data }) => {
-            if (data) {
-                setImage(data.uploadFile.url)
-            }
-        }).catch(e => {
-            console.log("upload error", e)
-        })
+        const imageData = new FormData();
+        imageData.set('key', "96c9b749b9100cdbbf50be2aa3e8cd17");
+        imageData.append('image', file);
+        axios.post("https://api.imgbb.com/1/upload", imageData)
+            .then(({ data }) => {
+                if (data) {
+                    setImage(data.data.display_url)
+                }
+            }).catch(e => {
+                console.log("upload error", e)
+            })
     }
     const postAdvertiseSubmit = (e) => {
         e.preventDefault();
+        //console.log("image", image);
         postAdvertise({
             variables: {
                 name: adv.name,

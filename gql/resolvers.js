@@ -268,7 +268,7 @@ const resolvers = {
             try {
                 const { totalAmount, productName, cusName, cusEmail, cusAdd1, cusPhone, advId } = args.payment;
                 return {
-                    url: `http://localhost:4000/ssl-request/?totalAmount=${totalAmount}&productName=${productName}&cusName=${cusName}&cusEmail=${cusEmail}&cusAdd1=${cusAdd1}&cusPhone=${cusPhone}&advId=${advId}`
+                    url: `https://grow-farm.herokuapp.com/ssl-request/?totalAmount=${totalAmount}&productName=${productName}&cusName=${cusName}&cusEmail=${cusEmail}&cusAdd1=${cusAdd1}&cusPhone=${cusPhone}&advId=${advId}`
                 }
             } catch (err) {
                 throw err;
@@ -287,14 +287,13 @@ const resolvers = {
         updateAdminSettings: async (_, { commissionAmount }, context) => {
             try {
                 const adminSettings = await AdminSettings.findByIdAndUpdate(
-                    "62fe84b072a1297ac5a104f2",
+                    "6309c20c5f8b21d4854e7828",
                     {
                         $set: {
                             commissionAmount
                         }
                     }
                 )
-                //console.log(adminSettings);
                 return adminSettings
             } catch (err) {
                 throw err;

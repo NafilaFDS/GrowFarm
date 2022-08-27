@@ -4,12 +4,13 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 //API
-import { UPDATE_ADMIN_SETTINGS } from '../../graphql/mutation';
+import { UPDATE_ADMIN_SETTINGS, CREATE_ADMIN_SETTINGS } from '../../graphql/mutation';
 import { GET_ADMIN_SETTINGS } from '../../graphql/query';
 
 const Dashboard = () => {
     const [commissionAmount, setCommissionAmount] = useState(0)
     const [updateAdminSettings] = useMutation(UPDATE_ADMIN_SETTINGS);
+    const [createAdminSettings] = useMutation(CREATE_ADMIN_SETTINGS);
     const { data, error } = useQuery(GET_ADMIN_SETTINGS);
     const save = () => {
         updateAdminSettings({
@@ -24,6 +25,18 @@ const Dashboard = () => {
             console.log(e)
             toast.error("Internal server error!")
         })
+        // createAdminSettings({
+        //     variables: {
+        //         commissionAmount: +commissionAmount
+        //     }
+        // }).then(({ data }) => {
+        //     if (data?.createAdminSettings) {
+        //         console.log(data);
+        //     }
+        // }).catch(e => {
+        //     console.log(e)
+        //     toast.error("Internal server error!")
+        // })
     }
     useEffect(() => {
         if (data) {

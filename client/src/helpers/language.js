@@ -46,7 +46,7 @@ const language = {
         },
         myResponse: {
             heading: 'My Response',
-            table: ["Available Quantity", "Price", "Date", "Payment Status"]
+            table: ["Available Quantity", "Price(tk)", "Date", "Payment Status"]
         },
         postAdvertise: {
             heading: "Post your required crop",
@@ -66,7 +66,7 @@ const language = {
         },
         sell: {
             heading: 'Sell Crop',
-            form: ["Quantity", "Price"]
+            form: ["Quantity", "Price(tk)"]
         },
         invoice: {
             heading: 'Invoice',
@@ -200,7 +200,7 @@ const language = {
         },
         myResponse: {
             heading: 'আমার প্রতিক্রিয়া',
-            table: ["উপলভ্য পরিমাণ", "মূল্য", "তারিখ", "প্রদানের স্থিতি"]
+            table: ["উপলভ্য পরিমাণ", "মূল্য(টাকা)", "তারিখ", "প্রদানের স্থিতি"]
         },
         postAdvertise: {
             heading: "আপনার প্রয়োজনীয় ফসল পোস্ট করুন",
@@ -220,7 +220,7 @@ const language = {
         },
         sell: {
             heading: 'ফসল বিক্রি করুন',
-            form: ["পরিমাণ", "মূল্য"]
+            form: ["পরিমাণ", "মূল্য(টাকা)"]
         },
         invoice: {
             heading: 'চালান',

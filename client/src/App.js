@@ -49,7 +49,7 @@ function App() {
   const link = from([
     errorLink,
     new createUploadLink({
-      uri: "http://localhost:4000/graphql"
+      uri: "https://grow-farm.herokuapp.com/graphql"
     })
   ]);
 
