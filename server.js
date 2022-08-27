@@ -12,7 +12,6 @@ const SSLCommerzPayment = require("sslcommerz-lts");
 const Sell = require("./models/Sell");
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-
 const app = express();
 
 // parse application/x-www-form-urlencoded
@@ -23,12 +22,12 @@ app.use(bodyParser.json())
 //---------------------SSL Commerz-------------------------
 let rootV
 app.get('/', async (req, res) => {
-
     /** 
     * Root url response 
     */
     //console.log(req.get('host'))
-    rootV = req.get('host') === "localhost:4000" ? "http://localhost:4000" : "https://grow-farm.herokuapp.com"
+    rootV = req.protocol + "://" + req.headers.host
+    console.log("rootV", rootV);
     return res.status(200).json({
         message: "Welcome to Grow Farm App",
         url: `${rootV}/ssl-request`
@@ -101,7 +100,7 @@ app.post("/ssl-payment-notification", async (req, res) => {
     );
 })
 
-app.post(`https://grow-farm.herokuapp.com/ssl-payment-success`, async (req, res) => {
+app.post("/ssl-payment-success", async (req, res) => {
 
     /** 
     * If payment successful 
