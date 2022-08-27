@@ -28,8 +28,8 @@ app.get('/', async (req, res) => {
     */
 
     return res.status(200).json({
-        message: "Welcome to sslcommerz app",
-        url: `${process.env.PORT || 4000}/ssl-request`
+        message: "Welcome to Grow Farm App",
+        url: `${process.env.ROOT}/ssl-request`
     })
 })
 
@@ -43,9 +43,9 @@ app.get('/ssl-request', async (req, res) => {
         total_amount: +totalAmount,
         currency: 'BDT',
         tran_id: 'REF123',
-        success_url: `http://localhost:${process.env.PORT || 4000}/ssl-payment-success?id=${advId}`,
-        fail_url: `http://localhost:${process.env.PORT || 4000}/ssl-payment-fail`,
-        cancel_url: `http://localhost:${process.env.PORT || 4000}/ssl-payment-cancel`,
+        success_url: `${process.env.ROOT}/ssl-payment-success?id=${advId}`,
+        fail_url: `${process.env.ROOT}/ssl-payment-fail`,
+        cancel_url: `${process.env.ROOT}/ssl-payment-cancel`,
         shipping_method: 'No',
         product_name: productName,
         product_category: 'Farm',
@@ -65,9 +65,8 @@ app.get('/ssl-request', async (req, res) => {
         value_b: 'ref002_B',
         value_c: 'ref003_C',
         value_d: 'ref004_D',
-        ipn_url: `http://localhost:${process.env.PORT || 4000}/ssl-payment-notification`,
+        ipn_url: `${process.env.ROOT}/ssl-payment-notification`,
     };
-    console.log("SSLCommerzPayment", SSLCommerzPayment)
     const sslcommerz = new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD, false) //true for live default false for sandbox
     sslcommerz.init(data).then(data => {
 
