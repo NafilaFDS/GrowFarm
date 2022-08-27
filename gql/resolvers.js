@@ -79,7 +79,7 @@ const resolvers = {
                 return await Sell.find({
                     $and: [
                         {
-                            "buyer": context.userId
+                            "farmer": context.userId
                         },
                         {
                             "advertise": advId

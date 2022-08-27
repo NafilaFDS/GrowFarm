@@ -42,7 +42,7 @@ const language = {
         },
         cropAdvertise: {
             heading: 'Crop Advertisement Detail',
-            table: ["Action", "Crop Name", "Crop Image", "Required Quantity(kg)", "Buyer Information", "My Response"]
+            table: ["Action", "Crop Name", "Crop Image", "Required Quantity(kg)", "Buyer Information", "Response"]
         },
         myResponse: {
             heading: 'My Response',
@@ -196,7 +196,7 @@ const language = {
         },
         cropAdvertise: {
             heading: 'ফসলের বিজ্ঞাপনের বিস্তারিত',
-            table: ["কর্ম", "শস্যের নাম", "ফসলের ছবি", "প্রয়োজনীয় পরিমাণ(কেজি)", "ক্রেতার তথ্য", "আমার প্রতিক্রিয়া"]
+            table: ["কর্ম", "শস্যের নাম", "ফসলের ছবি", "প্রয়োজনীয় পরিমাণ(কেজি)", "ক্রেতার তথ্য", "প্রতিক্রিয়া"]
         },
         myResponse: {
             heading: 'আমার প্রতিক্রিয়া',
