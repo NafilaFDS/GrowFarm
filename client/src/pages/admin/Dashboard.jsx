@@ -20,6 +20,7 @@ const Dashboard = () => {
         }).then(({ data }) => {
             if (data?.updateAdminSettings) {
                 console.log(data);
+                toast.success("Commission amount set successfully!")
             }
         }).catch(e => {
             console.log(e)
