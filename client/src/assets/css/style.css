@@ -50,6 +50,10 @@
     text-decoration: none;
 }
 
+td img {
+    object-fit: cover;
+}
+
 .user-entry ul {
     list-style-type: none;
 }
