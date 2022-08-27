@@ -11,10 +11,10 @@ const CropAdvRow = ({ item }) => {
         <>
             <tr>
                 <td>
-                    {item.response?.length > 0 ?
-                        <Link to={`/my-response/${item._id}`}>{languageData.cropAdvertise.table[5]}</Link> :
-                        <Link to={`/sell/${item._id}`}>{languageData.cropAdvertise.table[0]}</Link>
-                    }
+                    <div className="d-flex justify-content-center">
+                        <Link className='me-2 btn btn-success btn-sm' to={`/my-response/${item._id}`}>{languageData.cropAdvertise.table[5]}</Link>
+                        <Link className='btn btn-sm btn-warning' to={`/sell/${item._id}`}>{languageData.cropAdvertise.table[0]}</Link>
+                    </div>
                 </td>
                 <td>{item.name}</td>
                 <td><img src={item.image} alt={item.name} width="150" height="100" /></td>

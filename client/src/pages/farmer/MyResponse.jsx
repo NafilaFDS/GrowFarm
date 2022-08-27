@@ -28,29 +28,32 @@ const MyResponse = () => {
     return (
         <div className="t-design container mt-5">
             <h3 className="text-center">{languageData.myResponse.heading}</h3>
-            <table className="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">{languageData.myResponse.table[0]}</th>
-                        <th scope="col">{languageData.myResponse.table[1]}</th>
-                        <th scope="col">{languageData.myResponse.table[2]}</th>
-                        <th scope="col">{languageData.myResponse.table[3]}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        myAdv?.length > 0 &&
-                        myAdv.map(item => (
-                            <tr key={item?._id}>
-                                <td>{item.quantity}</td>
-                                <td>{item.price}</td>
-                                <td>{new Date(parseInt(item.createdAt)).toLocaleDateString()}</td>
-                                <td>{item.paymentStatus}</td>
+            {
+                myAdv?.length > 0 ?
+                    <table className="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">{languageData.myResponse.table[0]}</th>
+                                <th scope="col">{languageData.myResponse.table[1]}</th>
+                                <th scope="col">{languageData.myResponse.table[2]}</th>
+                                <th scope="col">{languageData.myResponse.table[3]}</th>
                             </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            {
+                                myAdv.map(item => (
+                                    <tr key={item?._id}>
+                                        <td>{item.quantity}</td>
+                                        <td>{item.price}</td>
+                                        <td>{new Date(parseInt(item.createdAt)).toLocaleDateString()}</td>
+                                        <td>{item.paymentStatus}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table> :
+                    <h2 className='text-center'>You haven't responded yet!</h2>
+            }
         </div>
     )
 }
