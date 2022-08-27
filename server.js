@@ -29,7 +29,7 @@ app.get('/', async (req, res) => {
 
     return res.status(200).json({
         message: "Welcome to Grow Farm App",
-        url: `${process.env.ROOT}/ssl-request`
+        url: `https://grow-farm.herokuapp.com/ssl-request`
     })
 })
 
