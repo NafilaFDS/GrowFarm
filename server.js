@@ -101,7 +101,7 @@ app.post("/ssl-payment-notification", async (req, res) => {
     );
 })
 
-app.post("/ssl-payment-success", async (req, res) => {
+app.post(`https://grow-farm.herokuapp.com/ssl-payment-success`, async (req, res) => {
 
     /** 
     * If payment successful 
